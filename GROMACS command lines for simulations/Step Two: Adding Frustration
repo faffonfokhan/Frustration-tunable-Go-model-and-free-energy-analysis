@@ -1,0 +1,7 @@
+python create_flavored_topology.py flavored_MJ.top mj_matrix_shuffled.csv topology_0.65.top
+grompp_4.5.7 -f em.mdp -c hugebox.gro -p topology_1.20.top -o em.tpr 
+mdrun_4.5.7 -v -s em.tpr -g em.log -o em.trr -c em.gro -tablep table_10_12.xvg -table table_6_12.xvg
+grompp_4.5.7 -f md.mdp -c em.gro -p topology_0.60.top -o md.tpr 
+mdrun_4.5.7 -v -s md.tpr -g md.log -o md.trr -c md.gro -tablep table_10_12.xvg -table table_6_12.xvg
+python CM_two.py -top topology_shuffled_0.65.top -xtc traj.xtc -pdb ca_only.pdb -viz -vmin 0 -vmax 1 -cmap jet -o CM.csv -Q_min 0.48 -Q_max 0.58
+python FE_overlay.py vanilla.csv Q_values_0.30.csv Q_values_0.60.csv Q_values_0.80.csv --labels ‘f = 0.00’ ‘f = 0.30’ ‘f = 0.60’ ‘f = 0.80’
