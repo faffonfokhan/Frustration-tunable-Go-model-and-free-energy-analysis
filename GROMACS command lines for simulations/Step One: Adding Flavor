@@ -1,0 +1,14 @@
+No flavour (vanilla):
+grompp_4.5.7 -f md.mdp -c 1SRL.31972.pdb.gro -p 1SRL.31972.pdb.top -o vanilla.tpr
+mdrun_4.5.7 -s vanilla.tpr -table table_6_12.xvg -tablep table_10_12.xvg
+Flavoured:
+grompp_4.5.7 -f mdp.mdp -p CI2.31012.pdb.flavored.top -c CI2.31012.pdb.gro -o flavored3.tpr
+mpirun -np 8 mdrun_4.5.7 -s flavored3.tpr -table table_6_12.xvg -tablep table_10_12.xvg
+mdrun_4.5.7 -s flavored2.tpr -table table.xvg -tablep table.xvg -cpi state.cpt
+Overflavored: 
+grompp_4.5.7 -f mdp.mdp -p topol_overflavored.top -c CI2.31012.pdb.gro -o overflavored.tpr
+mdrun_4.5.7 -v -deffnm overflavored_em -s overflavored.tpr -nt 24
+Processing (Code for flavored only):
+python Q_calc_new.py -top CI2.31012.pdb.flavored.top -xtc traj.xtc -pdb CI2_ca.pdb
+python FE.py Q_values.csv 
+python CM.py -top topol_flavored.top -xtc flavored_em.xtc -pdb CI2_ca.pdb -o CM.csv -viz -vmin 0 -vmax 1 -cmap jet  -Q_min 0.7 -Q_max 0.8
