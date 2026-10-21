@@ -1,1 +1,11 @@
-
+integrator=steep; 
+emtol=100.0; 
+nsteps=10000; 
+ns_type=grid; 
+nstlist=10; 
+pbc=xyz; 
+rlist=2.0; 
+rvdw=2.0; 
+coulombtype=Cut-off; 
+rcoulomb=2.0; 
+vdwtype=User
